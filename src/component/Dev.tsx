@@ -11,6 +11,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { db } from '../config'
+import firebase from 'firebase';
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
     addButton: {
@@ -19,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
         right: '50px'
     },
     table: {
-        width: '100%',
+        // width: '100%',
     },
     detail: {
         textDecoration: 'none',
@@ -33,11 +35,11 @@ const Dev = () => {
     const [data, setData] = useState()
     useEffect(() => {
         db.collection('board').where('category', '==', 'dev')
+        .orderBy('idx', 'desc')
             .get()
             .then((docs) => {
                 let datas: any = [];
                 docs.forEach((doc) => {
-                    console.log(doc.data());
                     datas.push(doc.data());
                 })
                 setData(datas)
@@ -63,11 +65,11 @@ const Dev = () => {
                             data !== undefined ?
                                 data.map((a: any) => {
                                     return (
-                                        <TableRow component={Link} to={`dev/detail/${a.idx}`} className={classes.detail}>
+                                        <TableRow component={Link} to={`detail/dev/${a.idx}`} className={classes.detail}>
                                             <TableCell align="center">{a.idx}</TableCell>
                                             <TableCell align="left">{a.title}</TableCell>
                                             <TableCell align="center">{a.author}</TableCell>
-                                            <TableCell align="center">{a.date}</TableCell>
+                                            <TableCell align="center">{moment(a.date.toDate()).format('YYYY-MM-DD HH:mm')}</TableCell>
                                             <TableCell align="center">{a.view}</TableCell>
                                         </TableRow>
                                     )

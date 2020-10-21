@@ -14,11 +14,11 @@ function App() {
     <>
       <Router>
         <Menu />
-        <Container style={{ marginLeft: 350 }}>
-          <Route exact path="/board/:idx" component={Board} />
-          <Route exact path="/introduce" component={Introduce} />
+        <Route exact path="/board/:idx" component={Board} />
+        <Route exact path="/introduce" component={Introduce} />
+        <Container>
           <Route exact path="/dev" component={Dev} />
-          <Route exact path="/dev/detail/:idx" component={Detail} />
+          <Route exact path="/detail/:category/:idx" component={Detail} />
           <Route exact path="/dev/write" component={Write} />
         </Container>
       </Router>

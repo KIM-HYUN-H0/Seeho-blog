@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../config'
 import moment from "moment";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Viewer } from "@toast-ui/react-editor";
 
 const Detail = (props: any) => {
 
@@ -28,7 +29,7 @@ const Detail = (props: any) => {
                     <>
                         글번호 : {post.idx}<br />
                         제목 : {post.title}<br />
-                        내용 : {post.content}<br />
+                        내용 : <Viewer initialValue={post.content} /><br />
                         작성일 : {moment(post.date.toDate()).format('YYYY-MM-DD HH:mm')}<br />
                         조회수 : {post.view}<br />
                         카테고리 : {post.category}

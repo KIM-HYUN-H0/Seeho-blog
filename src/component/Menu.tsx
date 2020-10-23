@@ -5,15 +5,16 @@ import MailIcon from '@material-ui/icons/Mail';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100%',
         position: 'fixed',
         background: 'black',
-        width: 350,
+        width: 250,
         textAlign: 'center',
     },
     title: {
@@ -43,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
         left : open =>
         open === true 
         ? '350px'
-        : '50px',
-        top : '50%',
+        : '0px',
+        top : '15px',
         transform : 'translate(0, -50%)',
     },
     drawer : {
@@ -62,11 +63,11 @@ const Menu = () => {
             <Button className={classes.open} onClick={e => setOpen((prev) => !prev)}>
                 {open === true
                 ? <KeyboardArrowLeftIcon />
-                : <KeyboardArrowRightIcon />
+                : <MenuIcon />
                 }
                 
             </Button>
-            <Drawer className={classes.drawer} open={open} onClose={e => setOpen((prev) => !prev)}>
+            <SwipeableDrawer className={classes.drawer} open={open} onOpen={e => setOpen(false)} onClose={e => setOpen((prev) => !prev)}>
                 <div className={classes.root}>
                     <div>
                         <Link to="/" style={{ textDecoration: 'none' }} onClick={e => setOpen(false)}>
@@ -93,7 +94,7 @@ const Menu = () => {
                     <div className={classes.icon}><MailIcon />cardbye@naver.com</div>
 
                 </div>
-            </Drawer>
+            </SwipeableDrawer>
 
         </>
     )

@@ -28,6 +28,15 @@ const useStyles = makeStyles((theme) => ({
         color: 'black',
         '&:hover': {
             opacity: 0.5,
+        },
+        [theme.breakpoints.down('sm')] : {
+            backgroundColor : 'green'
+        },
+        [theme.breakpoints.up('md')] : {
+            backgroundColor : 'blue'
+        },
+        [theme.breakpoints.up('lg')] : {
+            backgroundColor : 'pink'
         }
     }
 }));

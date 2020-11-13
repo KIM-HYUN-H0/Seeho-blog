@@ -31,8 +31,7 @@ const Detail = (props: any) => {
 
     const [post, setPost] = useState();
     useEffect(() => {
-        db.collection('board')
-            .where('category', '==', props.match.params.category)
+        db.collection(`board_${props.match.params.category}`)
             .where('idx', '==', Number(props.match.params.idx))
             .get()
             .then((docs) => {

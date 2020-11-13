@@ -17,9 +17,10 @@ function App() {
         <Route exact path="/board/:idx" component={Board} />
         <Route exact path="/introduce" component={Introduce} />
         <Container>
-          <Route exact path="/dev" component={Dev} />
-          <Route exact path="/detail/:category/:idx" component={Detail} />
-          <Route exact path="/dev/write" component={Write} />
+          {/* <Route exact path="/dev" component={Dev} /> */}
+          <Route exact path="/:category" component={Board} />
+          <Route exact path="/:category/detail/:idx" component={Detail} />
+          <Route exact path="/:category/write" component={Write} />
         </Container>
       </Router>
     </>

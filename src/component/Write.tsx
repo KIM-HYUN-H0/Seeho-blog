@@ -44,7 +44,7 @@ const Write = (props:any) => {
 
     const write = () => {
         let idx = 0;
-        db.collection('autoIncrement').where('field', '==', 'dev')
+        db.collection('autoIncrement').where('field', '==', props.match.params.category)
         .get()
         .then((data:any) => {
             data.forEach((doc:any) => {
@@ -59,9 +59,9 @@ const Write = (props:any) => {
                 view : 0,
                 idx : idx,
                 date : firebase.firestore.FieldValue.serverTimestamp(),
-                category : 'dev',
+                category : props.match.params.category,
             }
-            db.collection('board').add(data)
+            db.collection(`board_${props.match.params.category}`).add(data)
             .then((res) => {
                 console.log(res);
             })
@@ -70,9 +70,9 @@ const Write = (props:any) => {
             })
         })
         .then(() => {
-            db.collection('autoIncrement').doc('dev')
+            db.collection('autoIncrement').doc(props.match.params.category)
             .update({count : firebase.firestore.FieldValue.increment(1)})
-            props.history.push('/dev')
+            props.history.push(`/${props.match.params.category}`)
         })
         .catch((err) => {
             console.error(err);

@@ -88,7 +88,7 @@ const Menu = () => {
                         <Link to="/dev" style={{ textDecoration: 'none' }} onClick={e => setOpen(false)}><Typography variant='h5' className={classes.menuFont}>환경</Typography></Link>
                     </div>
                     <div className={classes.menu}>
-                        <Typography variant='h5' className={classes.menuFont}>자주 사용하는 코드</Typography>
+                    <Link to="/code" style={{ textDecoration: 'none' }} onClick={e => setOpen(false)}><Typography variant='h5' className={classes.menuFont}>자주 사용하는 코드</Typography></Link>
                     </div>
 
                     <div className={classes.icon}><MailIcon />cardbye@naver.com</div>

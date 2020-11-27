@@ -88,7 +88,7 @@ const Write = (props:any) => {
             <Editor
                 previewStyle="vertical"
                 height="300px"
-                initialEditType="wysiwyg"
+                initialEditType="markdown"
                 placeholder="내용"
                 ref={content}
                 hooks={{

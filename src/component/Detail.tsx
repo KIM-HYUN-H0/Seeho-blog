@@ -30,6 +30,8 @@ const useStyles = makeStyles((theme) => ({
 const Detail = (props: any) => {
 
     const [post, setPost] = useState();
+    const [doca, setDoca] = useState<any>(null);
+
     useEffect(() => {
         db.collection(`board_${props.match.params.category}`)
             .where('idx', '==', Number(props.match.params.idx))
@@ -38,12 +40,26 @@ const Detail = (props: any) => {
                 console.log(docs);
                 docs.forEach((doc) => {
                     setPost(doc.data());
+                    setDoca(doc.id)
                 })
             })
             .catch((err) => {
                 console.error(err);
             })
     }, [])
+
+    const deleteContent = () => {
+        db.collection(`board_${props.match.params.category}`)
+        .doc(doca)
+        .delete()
+        .then((result) => {
+            props.history.push(`/${props.match.params.category}`)
+        })
+    }
+
+    const updateContent = () => {
+        
+    }
 
     const classes = useStyles();
     return (
@@ -61,6 +77,8 @@ const Detail = (props: any) => {
                             <span className={classes.sub}><FolderOpenOutlinedIcon />{post.category}</span>
                         </div>
                         <Viewer initialValue={post.content} />
+                        <button onClick={deleteContent}>삭제</button>
+                        <button onClick={updateContent}>수정</button>
                     </>
                     :
                     <>

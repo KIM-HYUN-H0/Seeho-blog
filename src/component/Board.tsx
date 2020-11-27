@@ -29,22 +29,22 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             opacity: 0.5,
         },
-        [theme.breakpoints.down('sm')] : {
-            backgroundColor : 'green'
+        [theme.breakpoints.down('sm')]: {
+            backgroundColor: 'green'
         },
-        [theme.breakpoints.up('md')] : {
-            backgroundColor : 'blue'
+        [theme.breakpoints.up('md')]: {
+            backgroundColor: 'blue'
         },
-        [theme.breakpoints.up('lg')] : {
-            backgroundColor : 'pink'
+        [theme.breakpoints.up('lg')]: {
+            backgroundColor: 'pink'
         }
     }
 }));
-const Board = (props:any) => {
+const Board = (props: any) => {
     const [data, setData] = useState()
     useEffect(() => {
         db.collection(`board_${props.match.params.category}`)
-        .orderBy('idx', 'desc')
+            .orderBy('idx', 'desc')
             .get()
             .then((docs) => {
                 let datas: any = [];
@@ -55,7 +55,7 @@ const Board = (props:any) => {
             })
     }, [props.match.params.category])
 
-    const detailOpen = (idx:number) => {
+    const detailOpen = (idx: number) => {
         props.history.push(`/${props.match.params.category}/detail/${idx}`)
     }
     const classes = useStyles();
@@ -76,13 +76,17 @@ const Board = (props:any) => {
                     <TableBody>
                         {
                             data !== undefined ?
-                                data.map((a: any, index:number) => {
+                                data.map((a: any, index: number) => {
                                     return (
                                         <TableRow key={index} className={classes.detail} onClick={e => detailOpen(a.idx)}>
                                             <TableCell align="center">{a.idx}</TableCell>
                                             <TableCell align="left">{a.title}</TableCell>
                                             <TableCell align="center">{a.author}</TableCell>
-                                            <TableCell align="center">{moment(a.date.toDate()).format('YYYY-MM-DD HH:mm')}</TableCell>
+                                            <TableCell align="center">
+                                                {a.date ?
+                                                    moment(a.date.toDate()).format('YYYY-MM-DD HH:mm')
+                                                    : '새로고침을 눌러주세용'}
+                                            </TableCell>
                                             {/* <TableCell align="center">{a.date.toDate()}</TableCell> */}
                                             <TableCell align="center">{a.view}</TableCell>
                                         </TableRow>

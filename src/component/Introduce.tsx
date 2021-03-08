@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from '@material-ui/core/Paper';
 import Aboutme from './etc/Aboutme';
-import ReactFullpage from "@fullpage/react-fullpage";
+// import ReactFullpage from "@fullpage/react-fullpage";
 import { Translate } from '@material-ui/icons';
 
 
@@ -25,7 +25,7 @@ const Introduce = () => {
     const classes = useStyles();
     return (
         <>
-            <ReactFullpage
+            {/* <ReactFullpage
                 scrollOverflow={true}
                 sectionsColor={["orange", "green", "gray", "black"]}
                 scrollingSpeed={500}
@@ -60,7 +60,7 @@ const Introduce = () => {
                         </>
                     );
                 }}
-            />
+            /> */}
         </>
         // <>
         // <Paper elevation={5} className={classes.root}>

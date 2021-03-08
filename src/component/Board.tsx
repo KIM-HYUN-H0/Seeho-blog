@@ -10,9 +10,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { db } from '../config'
-import firebase from 'firebase';
 import moment from "moment";
+import axios from 'axios';
+import url from '../config';
 
 const useStyles = makeStyles((theme) => ({
     addButton: {
@@ -41,24 +41,27 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 const Board = (props: any) => {
-    const [data, setData] = useState()
+    const [data, setData] = useState([])
+
     useEffect(() => {
-        db.collection(`board_${props.match.params.category}`)
-            .orderBy('idx', 'desc')
-            .get()
-            .then((docs) => {
-                let datas: any = [];
-                docs.forEach((doc) => {
-                    datas.push(doc.data());
-                })
-                setData(datas)
-            })
+        axios.get(`${url}/board`, {
+            params : {
+                category : props.match.params.category
+            }
+        })
+        .then((results) => {
+            console.log(results);
+        })
+        .catch((err) => {
+            console.error(err);
+        })
     }, [props.match.params.category])
 
     const detailOpen = (idx: number) => {
         props.history.push(`/${props.match.params.category}/detail/${idx}`)
     }
     const classes = useStyles();
+
     return (
         <>
             <TableContainer component={Paper}>
@@ -75,7 +78,7 @@ const Board = (props: any) => {
 
                     <TableBody>
                         {
-                            data !== undefined ?
+                            data.length > 0 ?
                                 data.map((a: any, index: number) => {
                                     return (
                                         <TableRow key={index} className={classes.detail} onClick={e => detailOpen(a.idx)}>

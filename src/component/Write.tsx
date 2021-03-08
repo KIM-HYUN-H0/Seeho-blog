@@ -2,11 +2,11 @@ import React, { useState, useEffect, createRef } from 'react';
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
-import { db, dbs } from '../config'
-import firebase from 'firebase';
 import { Editor } from "@toast-ui/react-editor";
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import axios from 'axios';
+import url from '../config';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -27,52 +27,20 @@ const Write = (props:any) => {
     }               //https://stackoverflow.com/questions/105034/how-to-create-guid-uuid 고유한값
 
     const uploadImage = (blob: any) => {
-        return dbs
-            .child(uuidv4())
-            .put(blob)
-            .then(async (snapshot) => {
-                let returnURL = '';
-                await snapshot.ref.getDownloadURL().then((URL) => {
-                    returnURL = URL;
-                })
-                return returnURL;
-            })
+        
     }
 
     const [title, setTitle] = useState('');
     const content: any = createRef();
 
     const write = () => {
-        let idx = 0;
-        db.collection('autoIncrement').where('field', '==', props.match.params.category)
-        .get()
-        .then((data:any) => {
-            data.forEach((doc:any) => {
-                idx = doc.data().count
-            })
+        axios.post(`${url}/board`, {
+            title : title,
+            category : props.match.params.category,
+            content : content.current.getInstance().getHtml(),
         })
-        .then(() => {
-            const data = {
-                author : '김현호',
-                title : title,
-                content : content.current.getInstance().getHtml(),
-                view : 0,
-                idx : idx,
-                date : firebase.firestore.FieldValue.serverTimestamp(),
-                category : props.match.params.category,
-            }
-            db.collection(`board_${props.match.params.category}`).add(data)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.error(err);
-            })
-        })
-        .then(() => {
-            db.collection('autoIncrement').doc(props.match.params.category)
-            .update({count : firebase.firestore.FieldValue.increment(1)})
-            props.history.push(`/${props.match.params.category}`)
+        .then((result) => {
+            console.log(result);
         })
         .catch((err) => {
             console.error(err);
@@ -94,7 +62,7 @@ const Write = (props:any) => {
                 hooks={{
                     addImageBlobHook: async (blob, callback) => {
                         const upload = await uploadImage(blob);
-                        callback(upload, 'alt text');
+                        // callback(upload, 'alt text');
                         return false;
                     },
                 }}

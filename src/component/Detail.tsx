@@ -7,6 +7,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import FolderOpenOutlinedIcon from '@material-ui/icons/FolderOpenOutlined';
+import axios from 'axios';
+import url from '../config';
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -28,32 +30,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Detail = (props: any) => {
 
-    const [post, setPost] = useState();
+    const [post, setPost] = useState<any>();
     const [doca, setDoca] = useState<any>(null);
 
     useEffect(() => {
-        // db.collection(`board_${props.match.params.category}`)
-        //     .where('idx', '==', Number(props.match.params.idx))
-        //     .get()
-        //     .then((docs) => {
-        //         console.log(docs);
-        //         docs.forEach((doc) => {
-        //             setPost(doc.data());
-        //             setDoca(doc.id)
-        //         })
-        //     })
-        //     .catch((err) => {
-        //         console.error(err);
-        //     })
+        axios.get(`${url}/board/${props.match.params.idx}`)
+        .then((results) => {
+            setPost(results.data.message);
+        })
+        .catch((err) => {
+            console.error(err);
+        })
     }, [])
 
     const deleteContent = () => {
-        // db.collection(`board_${props.match.params.category}`)
-        // .doc(doca)
-        // .delete()
-        // .then((result) => {
-        //     props.history.push(`/${props.match.params.category}`)
-        // })
+
     }
 
     const updateContent = () => {
@@ -62,31 +53,29 @@ const Detail = (props: any) => {
 
     const classes = useStyles();
     return (
-        <>
-        </>
-        // <Container className={classes.wrapper}>
-        //     {
-        //         post !== undefined ?
-        //             <>
-        //                 <div>
-        //                     {/* <span>{post.idx}</span> */}
-        //                     <span className={classes.title}>{post.title}</span>
-        //                 </div>
-        //                 <div className={classes.main}>
-        //                     <span className={classes.sub}><ScheduleIcon />{moment(post.date.toDate()).format('YYYY-MM-DD HH:mm')}</span>
-        //                     <span className={classes.sub}><VisibilityIcon />view {post.view}</span>
-        //                     <span className={classes.sub}><FolderOpenOutlinedIcon />{post.category}</span>
-        //                 </div>
-        //                 <Viewer initialValue={post.content} />
-        //                 <button onClick={deleteContent}>삭제</button>
-        //                 <button onClick={updateContent}>수정</button>
-        //             </>
-        //             :
-        //             <>
-        //                 <CircularProgress />
-        //             </>
-        //     }
-        // </Container>
+        <Container className={classes.wrapper}>
+            {
+                post != undefined ?
+                    <>
+                        <div>
+                            {/* <span>{post.idx}</span> */}
+                            <span className={classes.title}>{post[0].title}</span>
+                        </div>
+                        <div className={classes.main}>
+                            <span className={classes.sub}><ScheduleIcon />{moment(post[0].date).format('YYYY-MM-DD HH:mm')}</span>
+                            <span className={classes.sub}><VisibilityIcon />view {post[0].view}</span>
+                            <span className={classes.sub}><FolderOpenOutlinedIcon />{post[0].category}</span>
+                        </div>
+                        <Viewer initialValue={post[0].content} />
+                        <button onClick={deleteContent}>삭제</button>
+                        <button onClick={updateContent}>수정</button>
+                    </>
+                    :
+                    <>
+                        <CircularProgress />
+                    </>
+            }
+        </Container>
     )
 }
 

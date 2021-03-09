@@ -50,7 +50,7 @@ const Board = (props: any) => {
             }
         })
         .then((results) => {
-            console.log(results);
+            setData(results.data.message);
         })
         .catch((err) => {
             console.error(err);
@@ -68,7 +68,6 @@ const Board = (props: any) => {
                 <Table className={classes.table}>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center">번호</TableCell>
                             <TableCell align="left">제목</TableCell>
                             <TableCell align="center">작성자</TableCell>
                             <TableCell align="center">날짜</TableCell>
@@ -82,15 +81,13 @@ const Board = (props: any) => {
                                 data.map((a: any, index: number) => {
                                     return (
                                         <TableRow key={index} className={classes.detail} onClick={e => detailOpen(a.idx)}>
-                                            <TableCell align="center">{a.idx}</TableCell>
                                             <TableCell align="left">{a.title}</TableCell>
                                             <TableCell align="center">{a.author}</TableCell>
                                             <TableCell align="center">
                                                 {a.date ?
-                                                    moment(a.date.toDate()).format('YYYY-MM-DD HH:mm')
+                                                    moment(a.date).format('YYYY-MM-DD HH:mm')
                                                     : '새로고침을 눌러주세용'}
                                             </TableCell>
-                                            {/* <TableCell align="center">{a.date.toDate()}</TableCell> */}
                                             <TableCell align="center">{a.view}</TableCell>
                                         </TableRow>
                                     )

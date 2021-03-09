@@ -40,7 +40,7 @@ const Write = (props:any) => {
             content : content.current.getInstance().getHtml(),
         })
         .then((result) => {
-            console.log(result);
+            props.history.push(`/${props.match.params.category}`)
         })
         .catch((err) => {
             console.error(err);

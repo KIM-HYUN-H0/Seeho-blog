@@ -34,9 +34,14 @@ const Detail = (props: any) => {
     const [doca, setDoca] = useState<any>(null);
 
     useEffect(() => {
-        axios.get(`${url}/board/${props.match.params.idx}`)
+        axios.get(`${url}/board/${props.match.params.id}`, {
+            params : {
+                category : props.match.params.category
+            }
+        })
         .then((results) => {
-            setPost(results.data.message);
+            console.log(results);
+            setPost(results.data);
         })
         .catch((err) => {
             console.error(err);
@@ -59,14 +64,14 @@ const Detail = (props: any) => {
                     <>
                         <div>
                             {/* <span>{post.idx}</span> */}
-                            <span className={classes.title}>{post[0].title}</span>
+                            <span className={classes.title}>{post.data.title}</span>
                         </div>
                         <div className={classes.main}>
-                            <span className={classes.sub}><ScheduleIcon />{moment(post[0].date).format('YYYY-MM-DD HH:mm')}</span>
-                            <span className={classes.sub}><VisibilityIcon />view {post[0].view}</span>
-                            <span className={classes.sub}><FolderOpenOutlinedIcon />{post[0].category}</span>
+                            <span className={classes.sub}><ScheduleIcon />{moment(new Date(post.data.date.seconds * 1000 + post.data.date.nanoseconds / 1000000)).format('YYYY-MM-DD HH:mm')}</span>
+                            <span className={classes.sub}><VisibilityIcon />view {post.data.view}</span>
+                            <span className={classes.sub}><FolderOpenOutlinedIcon />{post.data.category}</span>
                         </div>
-                        <Viewer initialValue={post[0].content} />
+                        <Viewer initialValue={post.data.content} />
                         <button onClick={deleteContent}>삭제</button>
                         <button onClick={updateContent}>수정</button>
                     </>

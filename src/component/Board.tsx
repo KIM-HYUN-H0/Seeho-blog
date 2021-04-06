@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import moment from "moment";
 import axios from 'axios';
 import url from '../config';
+import { DataUsageRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     addButton: {
@@ -50,7 +51,8 @@ const Board = (props: any) => {
             }
         })
         .then((results) => {
-            setData(results.data.message);
+            console.log(results.data);
+            setData(results.data);
         })
         .catch((err) => {
             console.error(err);
@@ -61,7 +63,6 @@ const Board = (props: any) => {
         props.history.push(`/${props.match.params.category}/detail/${idx}`)
     }
     const classes = useStyles();
-
     return (
         <>
             <TableContainer component={Paper}>
@@ -80,15 +81,15 @@ const Board = (props: any) => {
                             data.length > 0 ?
                                 data.map((a: any, index: number) => {
                                     return (
-                                        <TableRow key={index} className={classes.detail} onClick={e => detailOpen(a.idx)}>
-                                            <TableCell align="left">{a.title}</TableCell>
-                                            <TableCell align="center">{a.author}</TableCell>
+                                        <TableRow key={index} className={classes.detail} onClick={e => detailOpen(a.id)}>
+                                            <TableCell align="left">{a.data.title}</TableCell>
+                                            <TableCell align="center">{a.data.author}</TableCell>
                                             <TableCell align="center">
-                                                {a.date ?
-                                                    moment(a.date).format('YYYY-MM-DD HH:mm')
+                                                {a.data.date ?
+                                                    moment(new Date(a.data.date.seconds * 1000 + a.data.date.nanoseconds / 1000000)).format('YYYY-MM-DD HH:mm')
                                                     : '새로고침을 눌러주세용'}
                                             </TableCell>
-                                            <TableCell align="center">{a.view}</TableCell>
+                                            <TableCell align="center">{a.data.view}</TableCell>
                                         </TableRow>
                                     )
                                 })
